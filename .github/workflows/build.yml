@@ -1,0 +1,26 @@
+# 定义构建流程
+name: Build Process
+ 
+# 当代码被推送到存储库时触发工作流
+on: push
+ 
+jobs:
+  # 定义构建作业
+  build:
+    # 在 Windows 环境中运行
+    runs-on: windows-latest
+ 
+    steps:
+      # 步骤：检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      # 步骤：设置 MSBuild
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+ 
+      # 步骤：构建 VS 项目
+      - name: Build VS Project
+        run: |
+          # 运行生成 DLL 的命令
+          msbuild GB28181_Stress_Tools.sln /p:Configuration=Release /p:Platform=x64
