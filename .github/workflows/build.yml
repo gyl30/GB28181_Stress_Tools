@@ -24,3 +24,20 @@ jobs:
         run: |
           # 运行生成 DLL 的命令
           msbuild GB28181_Stress_Tools.sln /p:Configuration=Release /p:Platform=x64
+      - name: Deploy
+        shell: pwsh
+        run: |
+          dir
+          dir x64
+          dir x64\Release
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ env.executable }}-win64_msvc2022_64-6.8.1.zip
+      #     path: ${{ env.executable }}-win64_msvc2022_64-6.8.1.zip
+      #
+      # - name: Release
+      #   uses: softprops/action-gh-release@v2
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     files: ${{ env.executable }}-win64_msvc2022_64-6.8.1.zip
+      #     token: ${{ secrets.GITHUB_TOKEN }}
