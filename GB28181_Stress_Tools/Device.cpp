@@ -94,7 +94,7 @@ void Device::create_mobile_position_task() {
 
 void Device::process_call(eXosip_event_t * evt)
 {
-	//½âÎösdp
+	//è§£æsdp
 	osip_body_t *sdp_body = NULL;
 	osip_message_get_body(evt->request, 0, &sdp_body);
 	if (sdp_body != NULL) {
@@ -132,7 +132,7 @@ void Device::process_call(eXosip_event_t * evt)
 		callback(list_index, Message{ PULL_STREAM_PROTOCOL_TYPE ,is_tcp ? "TCP" : "UDP" });
 		callback(list_index, Message{ PULL_STREAM_PORT_TYPE ,port });
 	}
-	//·¢ËÍ200_ok
+	//å‘é€200_ok
 	listen_port = get_port();
 	char port[10];
 	snprintf(port, 10, "%d", listen_port);
@@ -164,7 +164,7 @@ void Device::process_call(eXosip_event_t * evt)
 
 	if (status != 0) {
 		if (callback != nullptr) {
-			callback(list_index, Message{ STATUS_TYPE ,"»Ø¸´inviteÊ§°Ü" });
+			callback(list_index, Message{ STATUS_TYPE ,"å›å¤inviteå¤±è´¥" });
 		}
 		return;
 	}
@@ -209,7 +209,7 @@ void Device::push_task() {
 	if (0 != status) {
 		cout << "client bind port failed" << endl;
 		if (callback != nullptr) {
-			callback(list_index, Message{ STATUS_TYPE ,"°ó¶¨±¾µØ¶Ë¿Ú»òÕßÁ¬½ÓÊ§°Ü" });
+			callback(list_index, Message{ STATUS_TYPE ,"ç»‘å®šæœ¬åœ°ç«¯å£æˆ–è€…è¿æ¥å¤±è´¥" });
 		}
 		if (callId != -1 && dialogId != -1) {
 			ExosipCtxLock lock(sip_context);
@@ -285,7 +285,7 @@ void Device::push_task() {
 				index += PS_HDR_LEN;
 			}
 
-			//·â×°pes
+			//å°è£…pes
 			gb28181_make_pes_header(pes_header, 0xe0, length, pts, pts);
 
 			memcpy(frame + index, pes_header, PES_HDR_LEN);
@@ -295,7 +295,7 @@ void Device::push_task() {
 			memcpy(frame + index, packet, length);
 			index += length;
 
-			//×é°ürtp
+			//ç»„åŒ…rtp
 
 			int rtp_packet_count = ((index - 1) / single_packet_max_length) + 1;
 
@@ -308,7 +308,7 @@ void Device::push_task() {
 				if ((i + 1)*single_packet_max_length > index) {
 					writed_count = index - (i* single_packet_max_length);
 				}
-				//Ìí¼Ó°ü³¤×Ö½Ú
+				//æ·»åŠ åŒ…é•¿å­—èŠ‚
 				int rtp_start_index = 0;
 
 				unsigned short rtp_packet_length = RTP_HDR_LEN + writed_count;
@@ -497,9 +497,9 @@ void Device::process_request() {
 		}
 		case EXOSIP_REGISTRATION_SUCCESS:
 		{
-			cout << "×¢²á³É¹¦" << endl;
+			cout << "æ³¨å†ŒæˆåŠŸ" << endl;
 			if (callback != nullptr) {
-				callback(list_index, Message{ STATUS_TYPE ,"×¢²á³É¹¦" });
+				callback(list_index, Message{ STATUS_TYPE ,"æ³¨å†ŒæˆåŠŸ" });
 			}
 			register_success = true;
 			if (heartbeat_thread) {
@@ -515,7 +515,7 @@ void Device::process_request() {
 			}
 			if (401 == evt->response->status_code) {
 				if (callback != nullptr) {
-					callback(list_index, Message{ STATUS_TYPE ,"×¢²á 401" });
+					callback(list_index, Message{ STATUS_TYPE ,"æ³¨å†Œ 401" });
 				}
 				osip_www_authenticate_t* www_authenticate_header;
 
@@ -527,24 +527,24 @@ void Device::process_request() {
 			break;
 		}
 		case EXOSIP_CALL_ACK: {
-			//ÍÆËÍÁ÷
-			cout << "½ÓÊÕµ½ ack£¬¿ªÊ¼ÍÆÁ÷" << endl;
+			//æ¨é€æµ
+			cout << "æ¥æ”¶åˆ° ackï¼Œå¼€å§‹æ¨æµ" << endl;
 			callId = evt->cid;
 			dialogId = evt->did;
 
 			if (callback != nullptr) {
-				callback(list_index, Message{ STATUS_TYPE ,"¿ªÊ¼ÍÆÁ÷" });
+				callback(list_index, Message{ STATUS_TYPE ,"å¼€å§‹æ¨æµ" });
 			}
 			create_push_stream_task();
 			break;
 		}
 		case EXOSIP_CALL_CLOSED: {
-			cout << "½ÓÊÕµ½Bye£¬½áÊøÍÆÁ÷" << endl;
+			cout << "æ¥æ”¶åˆ°Byeï¼Œç»“æŸæ¨æµ" << endl;
 			callId = -1;
 			dialogId = -1;
 			is_pushing = false;
 			if (callback != nullptr) {
-				callback(list_index, Message{ STATUS_TYPE ,"ÍÆÁ÷½áÊø" });
+				callback(list_index, Message{ STATUS_TYPE ,"æ¨æµç»“æŸ" });
 			}
 			break;
 		}
@@ -560,7 +560,7 @@ void Device::process_request() {
 		}
 	}
 	if (is_running) {
-		cout << "sip Òì³£ÍË³ö" << endl;
+		cout << "sip å¼‚å¸¸é€€å‡º" << endl;
 	}
 }
 
@@ -596,7 +596,7 @@ void Device::start_sip_client(int local_port) {
 	char contact[128] = { 0 };
 
 	eXosip_guess_localip(sip_context, AF_INET, local_ip, 128);
-	//²»ÄÜÓÃ<>°ü¹ü£¬²»È»eXosip_register_build_initial_register »áÒ»Ö±·µ»Ø -5£¬Óï·¨´íÎó
+	//ä¸èƒ½ç”¨<>åŒ…è£¹ï¼Œä¸ç„¶eXosip_register_build_initial_register ä¼šä¸€ç›´è¿”å› -5ï¼Œè¯­æ³•é”™è¯¯
 	sprintf(from_uri, "sip:%s@%s:%d", deviceId, local_ip, local_port);
 	sprintf(contact, "sip:%s@%s:%d", deviceId, local_ip, local_port);
 	//sprintf(contact,"<sip:%s@%s:%d>",deviceId,server_ip,server_port);
@@ -612,13 +612,13 @@ void Device::start_sip_client(int local_port) {
 		cout << "eXosip_register_build_initial_register failed" << endl;
 		return;
 	}
-	//ÌáÇ°ÊäÈëÁËÑéÖ¤ĞÅÏ¢£¬ÔÚÏûÏ¢Îª401´¦£¬ÓÃeXosip_automatic_action()×Ô¶¯´¦Àí
+	//æå‰è¾“å…¥äº†éªŒè¯ä¿¡æ¯ï¼Œåœ¨æ¶ˆæ¯ä¸º401å¤„ï¼Œç”¨eXosip_automatic_action()è‡ªåŠ¨å¤„ç†
 	//eXosip_add_authentication_info(sip_context,"022000000110000", "022000000110000", "12345678", "MD5", NULL);
 	eXosip_lock(sip_context);
 	eXosip_register_send_register(sip_context, register_id, register_message);
 	eXosip_unlock(sip_context);
 	if (callback != nullptr) {
-		callback(list_index, Message{ STATUS_TYPE ,"·¢ËÍ×¢²áÏûÏ¢" });
+		callback(list_index, Message{ STATUS_TYPE ,"å‘é€æ³¨å†Œæ¶ˆæ¯" });
 	}
 }
 
@@ -653,6 +653,6 @@ Device::~Device()
 		push_stream_thread->join();
 	}
 	if (callback != nullptr) {
-		callback(list_index, Message{ STATUS_TYPE ,"ÊÍ·ÅÉè±¸" });
+		callback(list_index, Message{ STATUS_TYPE ,"é‡Šæ”¾è®¾å¤‡" });
 	}
 }

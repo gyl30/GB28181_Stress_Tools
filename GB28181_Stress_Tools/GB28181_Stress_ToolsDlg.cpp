@@ -93,7 +93,7 @@ BEGIN_MESSAGE_MAP(CGB28181StressToolsDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT1, &CGB28181StressToolsDlg::OnEnChangeEdit1)
 END_MESSAGE_MAP()
 
-//¿ØÖÆÌ¨³õÊ¼»¯
+//æ§åˆ¶å°åˆå§‹åŒ–
 void InitConsoleWindow()
 {
 	int nRet = 0;
@@ -140,7 +140,7 @@ BOOL CGB28181StressToolsDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	InitConsoleWindow();
-	//¼ÓÔØxmlÅäÖÃÎÄ¼ş
+	//åŠ è½½xmlé…ç½®æ–‡ä»¶
 	config_file.load_file("config.xml");
 	pugi::xml_node config = config_file.first_child();
 	if (!config) {
@@ -174,15 +174,15 @@ BOOL CGB28181StressToolsDlg::OnInitDialog()
 	m_device_list.SetExtendedStyle(m_device_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
 	//set_title
-	// ÎªÁĞ±íÊÓÍ¼¿Ø¼şÌí¼ÓÈıÁĞ   
-	m_device_list.InsertColumn(0, _T("ĞòºÅ"), LVCFMT_CENTER, list_rect.Width() / 10, 0);
+	// ä¸ºåˆ—è¡¨è§†å›¾æ§ä»¶æ·»åŠ ä¸‰åˆ—   
+	m_device_list.InsertColumn(0, _T("åºå·"), LVCFMT_CENTER, list_rect.Width() / 10, 0);
 
 	m_device_list.InsertColumn(1, _T("DeviceId"), LVCFMT_CENTER, list_rect.Width() / 5, 0);
 	m_device_list.InsertColumn(2, _T("VideoChannelId"), LVCFMT_CENTER, list_rect.Width() / 5, 1);
-	m_device_list.InsertColumn(3, _T("ĞÅÁî¼àÌı¶Ë¿Ú"), LVCFMT_CENTER, list_rect.Width() / 8, 3);
-	m_device_list.InsertColumn(4, _T("ÍÆÁ÷¼àÌı¶Ë¿Ú"), LVCFMT_CENTER, list_rect.Width() / 8, 4);
-	m_device_list.InsertColumn(5, _T("ÍÆÁ÷Ğ­Òé"), LVCFMT_CENTER, list_rect.Width() / 8, 5);
-	m_device_list.InsertColumn(6, _T("×´Ì¬"), LVCFMT_CENTER, list_rect.Width() / 8, 6);
+	m_device_list.InsertColumn(3, _T("ä¿¡ä»¤ç›‘å¬ç«¯å£"), LVCFMT_CENTER, list_rect.Width() / 8, 3);
+	m_device_list.InsertColumn(4, _T("æ¨æµç›‘å¬ç«¯å£"), LVCFMT_CENTER, list_rect.Width() / 8, 4);
+	m_device_list.InsertColumn(5, _T("æ¨æµåè®®"), LVCFMT_CENTER, list_rect.Width() / 8, 5);
+	m_device_list.InsertColumn(6, _T("çŠ¶æ€"), LVCFMT_CENTER, list_rect.Width() / 8, 6);
 	//ServerId
 	//ServerIp
 	//ServerPort
@@ -286,7 +286,7 @@ void CGB28181StressToolsDlg::Start() {
 	if (device_count > 10000) {
 		device_count = 9999;
 	}
-	//¶àÉÙDeivce¶ÔÓ¦Ò»¸ö¶ÓÁĞ
+	//å¤šå°‘Deivceå¯¹åº”ä¸€ä¸ªé˜Ÿåˆ—
 	int rate = 20;
 
 	int start_port = 50000;
@@ -337,7 +337,7 @@ void CGB28181StressToolsDlg::Start() {
 			m_device_vector.push_back(device_ptr);
 
 		}
-		//Èç¹ûÔÚÆô¶¯µÄ¹ı³ÌÖĞµã»÷¡°½áÊø¡±£¬Ìø³öÑ­»·
+		//å¦‚æœåœ¨å¯åŠ¨çš„è¿‡ç¨‹ä¸­ç‚¹å‡»â€œç»“æŸâ€ï¼Œè·³å‡ºå¾ªç¯
 		else {
 			return;
 		}
@@ -349,26 +349,26 @@ void CGB28181StressToolsDlg::Stop() {
 }
 bool CGB28181StressToolsDlg::CheckParams() {
 	if (m_edit_server_sip_id.GetLength() < 10) {
-		MessageBox(_T("Server Sip Id ±ØĞë´óÓÚ10"));
+		MessageBox(_T("Server Sip Id å¿…é¡»å¤§äº10"));
 		return false;
 	}
 
 	if (m_edit_server_ip.IsEmpty()) {
-		MessageBox(_T("ÇëÊäÈë Server Ip"));
+		MessageBox(_T("è¯·è¾“å…¥ Server Ip"));
 		return false;
 	}
 	int port = m_edit_server_port;
 	if (port <= 0) {
-		MessageBox(_T("port ±ØĞë´óÓÚ1"));
+		MessageBox(_T("port å¿…é¡»å¤§äº1"));
 		return false;
 	}
 
 	if (m_edit_device_count <= 0) {
-		MessageBox(_T("Ä£ÄâÊıÁ¿ ±ØĞë´óÓÚ1"));
+		MessageBox(_T("æ¨¡æ‹Ÿæ•°é‡ å¿…é¡»å¤§äº1"));
 		return false;
 	}
 	if (m_edit_password.IsEmpty()) {
-		MessageBox(_T("ÃÜÂë²»ÄÜÎª¿Õ"));
+		MessageBox(_T("å¯†ç ä¸èƒ½ä¸ºç©º"));
 		return false;
 	}
 	USES_CONVERSION;
@@ -396,8 +396,8 @@ extern vector<Nalu*> nalu_vector;
 
 void CGB28181StressToolsDlg::OnBnClickedButton1()
 {
-	//1.¶ÁÈ¡h264ÊÓÆµÔ´
-	//»ñÈ¡²ÎÊı£¬´´½¨Éè±¸£¬¿ªÊ¼Í¨ĞÅ
+	//1.è¯»å–h264è§†é¢‘æº
+	//è·å–å‚æ•°ï¼Œåˆ›å»ºè®¾å¤‡ï¼Œå¼€å§‹é€šä¿¡
 	if (!is_started) {
 		UpdateData(TRUE);
 	
@@ -408,22 +408,22 @@ void CGB28181StressToolsDlg::OnBnClickedButton1()
 		if(nalu_vector.empty()){
 			const char * h264_path = "bigbuckbunnynoB_480x272.h264";
 			if (load(h264_path) < 0) {
-				MessageBox(_T("¶ÁÈ¡h264Ô´ÎÄ¼şÊ§°Ü"));
+				MessageBox(_T("è¯»å–h264æºæ–‡ä»¶å¤±è´¥"));
 				return;
 			}
 		}
 		is_started = true;
 		task_thread = std::make_shared<std::thread>(&CGB28181StressToolsDlg::Start, this);
-		m_btn_start.SetWindowTextW(_T("½áÊø"));
+		m_btn_start.SetWindowTextW(_T("ç»“æŸ"));
 	}
-	//ÊÍ·ÅËùÓĞÉè±¸
+	//é‡Šæ”¾æ‰€æœ‰è®¾å¤‡
 	else {
 		is_started = false;
 		if (task_thread) {
 			task_thread->join();
 		}
 		Stop();
-		m_btn_start.SetWindowTextW(_T("¿ªÊ¼"));
+		m_btn_start.SetWindowTextW(_T("å¼€å§‹"));
 
 	}
 	// TODO: Add your control notification handler code here

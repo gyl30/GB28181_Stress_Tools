@@ -5,22 +5,22 @@
 
 
 /***
- *@remark:   psÍ·µÄ·â×°,ÀïÃæµÄ¾ßÌåÊı¾İµÄÌîĞ´ÒÑ¾­Õ¼Î»£¬¿ÉÒÔ²Î¿¼±ê×¼
- *@param :   pData  [in] Ìî³äpsÍ·Êı¾İµÄµØÖ·
- *           s64Src [in] Ê±¼ä´Á
+ *@remark:   pså¤´çš„å°è£…,é‡Œé¢çš„å…·ä½“æ•°æ®çš„å¡«å†™å·²ç»å ä½ï¼Œå¯ä»¥å‚è€ƒæ ‡å‡†
+ *@param :   pData  [in] å¡«å……pså¤´æ•°æ®çš„åœ°å€
+ *           s64Src [in] æ—¶é—´æˆ³
  *@return:   0 success, others failed
 */
 int gb28181_make_ps_header(char *pData, int64_t s64Scr)
 {
 	int64_t lScrExt = 0; //(s64Scr) % 100;
 //    s64Scr = s64Scr * 3600; // / 100; // 90000/fps
-	// ÕâÀï³ıÒÔ100ÊÇÓÉÓÚsdpĞ­Òé·µ»ØµÄvideoµÄÆµÂÊÊÇ90000£¬Ö¡ÂÊÊÇ25Ö¡/s£¬ËùÒÔÃ¿´ÎµİÔöµÄÁ¿ÊÇ3600,
-	// ËùÒÔÊµ¼ÊÄãÓ¦¸Ã¸ù¾İÄã×Ô¼º±àÂëÀïµÄÊ±¼ä´ÁÀ´´¦ÀíÒÔ±£Ö¤Ê±¼ä´ÁµÄÔöÁ¿Îª3600¼´¿É£¬
-	//Èç¹ûÕâÀï²»¶ÔµÄ»°£¬¾Í¿ÉÄÜµ¼ÖÂ¿¨¶ÙÏÖÏóÁË
+	// è¿™é‡Œé™¤ä»¥100æ˜¯ç”±äºsdpåè®®è¿”å›çš„videoçš„é¢‘ç‡æ˜¯90000ï¼Œå¸§ç‡æ˜¯25å¸§/sï¼Œæ‰€ä»¥æ¯æ¬¡é€’å¢çš„é‡æ˜¯3600,
+	// æ‰€ä»¥å®é™…ä½ åº”è¯¥æ ¹æ®ä½ è‡ªå·±ç¼–ç é‡Œçš„æ—¶é—´æˆ³æ¥å¤„ç†ä»¥ä¿è¯æ—¶é—´æˆ³çš„å¢é‡ä¸º3600å³å¯ï¼Œ
+	//å¦‚æœè¿™é‡Œä¸å¯¹çš„è¯ï¼Œå°±å¯èƒ½å¯¼è‡´å¡é¡¿ç°è±¡äº†
 	bits_buffer_t  	bitsBuffer;
 	bitsBuffer.i_size = PS_HDR_LEN;
 	bitsBuffer.i_data = 0;
-	bitsBuffer.i_mask = 0x80; // ¶ş½øgÖÆ£º10000000 ÕâÀïÊÇÎªÁËºóÃæ¶ÔÒ»¸ö×Ö½ÚµÄÃ¿Ò»Î»½øĞĞ²Ù×÷£¬±ÜÃâ´óĞ¡¶Ë¿ä×Ö½Ú×ÖĞò´íÂÒ
+	bitsBuffer.i_mask = 0x80; // äºŒè¿›gåˆ¶ï¼š10000000 è¿™é‡Œæ˜¯ä¸ºäº†åé¢å¯¹ä¸€ä¸ªå­—èŠ‚çš„æ¯ä¸€ä½è¿›è¡Œæ“ä½œï¼Œé¿å…å¤§å°ç«¯å¤¸å­—èŠ‚å­—åºé”™ä¹±
 	bitsBuffer.p_data = (unsigned char *)(pData);
 	memset(bitsBuffer.p_data, 0, PS_HDR_LEN);
 	bits_write(&bitsBuffer, 32, 0x000001BA);			/*start codes*/
@@ -42,8 +42,8 @@ int gb28181_make_ps_header(char *pData, int64_t s64Scr)
 
 
 /***
- *@remark:   sysÍ·µÄ·â×°,ÀïÃæµÄ¾ßÌåÊı¾İµÄÌîĞ´ÒÑ¾­Õ¼Î»£¬¿ÉÒÔ²Î¿¼±ê×¼
- *@param :   pData  [in] Ìî³äpsÍ·Êı¾İµÄµØÖ·
+ *@remark:   syså¤´çš„å°è£…,é‡Œé¢çš„å…·ä½“æ•°æ®çš„å¡«å†™å·²ç»å ä½ï¼Œå¯ä»¥å‚è€ƒæ ‡å‡†
+ *@param :   pData  [in] å¡«å……pså¤´æ•°æ®çš„åœ°å€
  *@return:   0 success, others failed
 */
 int gb28181_make_sys_header(char *pData, int audioCnt)
@@ -57,7 +57,7 @@ int gb28181_make_sys_header(char *pData, int audioCnt)
 	memset(bitsBuffer.p_data, 0, SYS_HDR_LEN);
 	/*system header*/
 	bits_write(&bitsBuffer, 32, 0x000001BB);	/*start code*/
-	bits_write(&bitsBuffer, 16, SYS_HDR_LEN - 6);/*header_length ±íÊ¾´Î×Ö½ÚºóÃæµÄ³¤¶È£¬ºóÃæµÄÏà¹ØÍ·Ò²ÊÇ´ÎÒâË¼*/
+	bits_write(&bitsBuffer, 16, SYS_HDR_LEN - 6);/*header_length è¡¨ç¤ºæ¬¡å­—èŠ‚åé¢çš„é•¿åº¦ï¼Œåé¢çš„ç›¸å…³å¤´ä¹Ÿæ˜¯æ¬¡æ„æ€*/
 	bits_write(&bitsBuffer, 1, 1);            /*marker_bit*/
 	bits_write(&bitsBuffer, 22, 3967);		/*rate_bound*/
 	bits_write(&bitsBuffer, 1, 1);            /*marker_bit*/
@@ -85,8 +85,8 @@ int gb28181_make_sys_header(char *pData, int audioCnt)
 
 
 /***
- *@remark:   psmÍ·µÄ·â×°,ÀïÃæµÄ¾ßÌåÊı¾İµÄÌîĞ´ÒÑ¾­Õ¼Î»£¬¿ÉÒÔ²Î¿¼±ê×¼
- *@param :   pData  [in] Ìî³äpsÍ·Êı¾İµÄµØÖ·
+ *@remark:   psmå¤´çš„å°è£…,é‡Œé¢çš„å…·ä½“æ•°æ®çš„å¡«å†™å·²ç»å ä½ï¼Œå¯ä»¥å‚è€ƒæ ‡å‡†
+ *@param :   pData  [in] å¡«å……pså¤´æ•°æ®çš„åœ°å€
  *@return:   0 success, others failed
 */
 int gb28181_make_psm_header(char *pData)
@@ -126,11 +126,11 @@ int gb28181_make_psm_header(char *pData)
 }
 
 /***
- *@remark:   pesÍ·µÄ·â×°,ÀïÃæµÄ¾ßÌåÊı¾İµÄÌîĞ´ÒÑ¾­Õ¼Î»£¬¿ÉÒÔ²Î¿¼±ê×¼
- *@param :   pData      [in] Ìî³äpsÍ·Êı¾İµÄµØÖ·
- *           stream_id  [in] ÂëÁ÷ÀàĞÍ
- *           paylaod_len[in] ¸ºÔØ³¤¶È
- *           pts        [in] Ê±¼ä´Á
+ *@remark:   peså¤´çš„å°è£…,é‡Œé¢çš„å…·ä½“æ•°æ®çš„å¡«å†™å·²ç»å ä½ï¼Œå¯ä»¥å‚è€ƒæ ‡å‡†
+ *@param :   pData      [in] å¡«å……pså¤´æ•°æ®çš„åœ°å€
+ *           stream_id  [in] ç æµç±»å‹
+ *           paylaod_len[in] è´Ÿè½½é•¿åº¦
+ *           pts        [in] æ—¶é—´æˆ³
  *           dts        [in]
  *@return:   0 success, others failed
 */
@@ -146,7 +146,7 @@ int gb28181_make_pes_header(char *pData, int stream_id, int payload_len, int64_t
 
 	bits_write(&bitsBuffer, 24, 0x000001);	//*start code*//*
 	bits_write(&bitsBuffer, 8, (stream_id));	//*streamID*//*
-	bits_write(&bitsBuffer, 16, (payload_len)+13);	//*packet_len*//* //Ö¸³öpes·Ö×éÖĞÊı¾İ³¤¶ÈºÍ¸Ã×Ö½ÚºóµÄ³¤¶ÈºÍ
+	bits_write(&bitsBuffer, 16, (payload_len)+13);	//*packet_len*//* //æŒ‡å‡ºpesåˆ†ç»„ä¸­æ•°æ®é•¿åº¦å’Œè¯¥å­—èŠ‚åçš„é•¿åº¦å’Œ
 	bits_write(&bitsBuffer, 2, 2);		//*'10'*//*
 	bits_write(&bitsBuffer, 2, 0);		//*scrambling_control*//*
 	bits_write(&bitsBuffer, 1, 0);		//*priority*//*
@@ -162,10 +162,10 @@ int gb28181_make_pes_header(char *pData, int stream_id, int payload_len, int64_t
 	bits_write(&bitsBuffer, 1, 0);		//*PES_CRC_flag*//*
 	bits_write(&bitsBuffer, 1, 0);		//*PES_extension_flag*//*
 	bits_write(&bitsBuffer, 8, 10);		//*header_data_length*//*
-	// Ö¸³ö°üº¬ÔÚ PES ·Ö×é±êÌâÖĞµÄ¿ÉÑ¡×Ö¶ÎºÍÈÎºÎÌî³ä×Ö½ÚËùÕ¼ÓÃµÄ×Ü×Ö½ÚÊı¡£¸Ã×Ö¶ÎÖ®Ç°
-	//µÄ×Ö½ÚÖ¸³öÁËÓĞÎŞ¿ÉÑ¡×Ö¶Î¡£
+	// æŒ‡å‡ºåŒ…å«åœ¨ PES åˆ†ç»„æ ‡é¢˜ä¸­çš„å¯é€‰å­—æ®µå’Œä»»ä½•å¡«å……å­—èŠ‚æ‰€å ç”¨çš„æ€»å­—èŠ‚æ•°ã€‚è¯¥å­—æ®µä¹‹å‰
+	//çš„å­—èŠ‚æŒ‡å‡ºäº†æœ‰æ— å¯é€‰å­—æ®µã€‚
 
-	//*PTS,DTS  PTS DTS¾ùÎª1µÄÇé¿ö*//
+	//*PTS,DTS  PTS DTSå‡ä¸º1çš„æƒ…å†µ*//
 	bits_write(&bitsBuffer, 4, 3);                    //*'0011'*//*
 	bits_write(&bitsBuffer, 3, ((pts) >> 30) & 0x07);     //*PTS[32..30]*//*
 	bits_write(&bitsBuffer, 1, 1);
@@ -185,11 +185,11 @@ int gb28181_make_pes_header(char *pData, int stream_id, int payload_len, int64_t
 
 
 /**
- * RTPÍ··â×°
- * @param pData bufferµØÖ·
- * @param seqNum ĞòºÅ
- * @param timestamp Ê±¼ä´Á
- * @param ssrc ±êÊ¶
+ * RTPå¤´å°è£…
+ * @param pData bufferåœ°å€
+ * @param seqNum åºå·
+ * @param timestamp æ—¶é—´æˆ³
+ * @param ssrc æ ‡è¯†
  * @return
  */
 int gb28181_make_rtp_header(char *pData, int seqNum, int64_t timestamp, int ssrc, int isEnd)
@@ -201,14 +201,14 @@ int gb28181_make_rtp_header(char *pData, int seqNum, int64_t timestamp, int ssrc
 	bitsBuffer.i_mask = 0x80;
 	bitsBuffer.p_data = (unsigned char *)(pData);
 	memset(bitsBuffer.p_data, 0, RTP_HDR_LEN);
-	bits_write(&bitsBuffer, 2, 2);	    /*Ğ­Òé°æ±¾*/
+	bits_write(&bitsBuffer, 2, 2);	    /*åè®®ç‰ˆæœ¬*/
 	bits_write(&bitsBuffer, 1, 0);		/*P*/
 	bits_write(&bitsBuffer, 1, 0);		/*X*/
-	bits_write(&bitsBuffer, 4, 0);		/*CSRC¸öÊı*/
-	bits_write(&bitsBuffer, 1, isEnd);			/*Ò»Ö¡ÊÇ·ñ½áÊø*/
-	bits_write(&bitsBuffer, 7, 96); 		/*ÔØºÉµÄÊı¾İÀàĞÍ*/
-	bits_write(&bitsBuffer, 16, seqNum); 			/*ĞòÁĞºÅ£¬µÚ¼¸¸ö*/
-	bits_write(&bitsBuffer, 32, timestamp);		/*Ê±¼ä´Á£¬µÚÒ»¸ö */
-	bits_write(&bitsBuffer, 32, ssrc);			/*Í¬²½ĞÅÔ´(SSRC)±êÊ¶·û*/
+	bits_write(&bitsBuffer, 4, 0);		/*CSRCä¸ªæ•°*/
+	bits_write(&bitsBuffer, 1, isEnd);			/*ä¸€å¸§æ˜¯å¦ç»“æŸ*/
+	bits_write(&bitsBuffer, 7, 96); 		/*è½½è·çš„æ•°æ®ç±»å‹*/
+	bits_write(&bitsBuffer, 16, seqNum); 			/*åºåˆ—å·ï¼Œç¬¬å‡ ä¸ª*/
+	bits_write(&bitsBuffer, 32, timestamp);		/*æ—¶é—´æˆ³ï¼Œç¬¬ä¸€ä¸ª */
+	bits_write(&bitsBuffer, 32, ssrc);			/*åŒæ­¥ä¿¡æº(SSRC)æ ‡è¯†ç¬¦*/
 	return 0;
 }
