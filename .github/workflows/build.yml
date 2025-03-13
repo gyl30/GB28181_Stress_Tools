@@ -21,10 +21,22 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
+      - name: Set Chinese Locale
+        run: |
+          chcp 936
+          echo 中文环境设置完成 
+      - name: Set UI Locale to Chinese
+        run: |
+          reg add "HKCU\Control Panel\International" /v Locale /t REG_SZ /d 00000804 /f
+          reg add "HKCU\Control Panel\Desktop" /v PreferredUILanguages /t REG_MULTI_SZ /d zh-CN /f
+          reg add "HKCU\Control Panel\International\User Profile" /v Languages /t REG_MULTI_SZ /d zh-CN /f
+          reg add "HKCU\Control Panel\International\User Profile" /v ShowAutoLangOptIn /t REG_DWORD /d 0 /f
+          reg add "HKCU\Control Panel\International\User Profile" /v HttpAcceptLanguageOptOut /t REG_DWORD /d 1 /f
       # 步骤：构建 VS 项目
       - name: Build VS Project
         run: |
           # 运行生成 DLL 的命令
+          chcp 936
           msbuild GB28181_Stress_Tools.sln /p:Configuration=Release /p:Platform=x64
       - name: Deploy
         shell: pwsh
