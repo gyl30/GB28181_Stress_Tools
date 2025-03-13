@@ -3,7 +3,9 @@ name: Build Process
  
 # 当代码被推送到存储库时触发工作流
 on: push
- 
+permissions:
+  contents: write
+
 jobs:
   # 定义构建作业
   build:
@@ -31,6 +33,9 @@ jobs:
           dir x64
           dir x64\Release
           Compress-Archive -Path .\x64\Release\* GB28181_Stress_Tools.zip
+          dir
+          dir x64\Release
+
       - uses: actions/upload-artifact@v4
         with:
           name: GB28181_Stress_Tools.zip
