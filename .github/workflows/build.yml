@@ -8,7 +8,7 @@ jobs:
   # 定义构建作业
   build:
     # 在 Windows 环境中运行
-    runs-on: windows-latest
+    runs-on: windows-2019
  
     steps:
       # 步骤：检出代码
